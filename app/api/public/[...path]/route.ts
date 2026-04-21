@@ -12,10 +12,9 @@ export async function GET(
     const { path } = await params;
     const { searchParams } = new URL(request.url);
 
-    // Verify token
     const token = searchParams.get('token');
     const config = await getRuntimeConfig();
-    if (!token || token !== config.publicApiToken) {
+    if (config.publicApiToken && token !== config.publicApiToken) {
       return NextResponse.json({ error: 'Invalid or missing token' }, { status: 403 });
     }
 
